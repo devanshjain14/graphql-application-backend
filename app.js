@@ -7,15 +7,16 @@ const mongoose = require('mongoose');
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
 const isAuth = require('./middleware/is-auth');
-
 const app = express();
 
+const corsOptions = {
+    origin(origin, callback) {
+        callback(null, true);
+    },
+    credentials: true
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
-// const corsOptions =  {
-//   origin: ['https://graphql-event-app.herokuapp.com']
-// };
-// app.use(cors(corsOptions));
-
 app.use((req, res, next) => { 
   res.setHeader('Access-Control-Allow-Origin', 'https://graphql-event-app.herokuapp.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
